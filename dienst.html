@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dendaz Music - Diensten</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{background:#0f5c66;color:#fff;overflow-x:hidden}
+.hero{height:100vh;background:url('Afbeeldingen/Header2.jpg') center/cover no-repeat;position:relative;display:flex;justify-content:center;align-items:center;text-align:center;}
+.hero::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.6);}
+.hero-content{position:relative;z-index:2}
+.logo-glow { position: relative; display: inline-block; }
+.logo-glow::after { content: ""; position: absolute; width: 260px; height: 260px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0) 70%); z-index: 0; pointer-events: none; }
+.logo-glow img { position: relative; z-index: 2; }
+.hero-content img{width:180px;margin-bottom:20px}
+.hero h1{font-size:48px;margin-bottom:20px}
+.scroll-down{ display:inline-block; width:30px; height:50px; border:2px solid #fff; border-radius:25px; position:relative; cursor:pointer; margin-top:20px; }
+.scroll-down span{ display:block; width:6px; height:6px; background:#fff; position:absolute; top:10px; left:50%; transform:translateX(-50%); border-radius:50%; animation:scrollMove 2s infinite; }
+@keyframes scrollMove{ 0%{top:10px;opacity:0;} 50%{top:25px;opacity:1;} 100%{top:40px;opacity:0;} }
+header{ position:absolute; top:20px; left:50%; transform:translateX(-50%); width:100%; padding:0 20px; z-index:10; }
+.navbar{ background:#176d77; padding:20px 40px; border-radius:20px; display:flex; justify-content:space-between; align-items:center; }
+.logo{display:flex;align-items:center;gap:15px;font-weight:bold}
+.logo img{width:120px}
+nav ul{list-style:none;display:flex;gap:20px}
+nav a{color:#fff;text-decoration:none;padding:8px 16px;border-radius:8px}
+nav a:hover{background:rgba(255,255,255,.15)}
+.hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+.hamburger div { width: 25px; height: 3px; background-color: #fff; border-radius: 2px; transition: all 0.3s ease; }
+main{ padding:100px 20px; min-height:60vh; max-width:1100px; margin:0 auto; }
+.service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; justify-items: center; }
+.service-card { background:#176d77; border-radius:20px; padding:30px 20px; width:100%; max-width:320px; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.service-card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+.service-card h3 { color:#f5d442; margin-bottom:15px; font-size:22px; }
+.service-card .click-read { font-style:italic; opacity:0.8; font-size:15px; }
+
+/* Overlay styling */
+.service-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  overflow-y: auto;
+  z-index: 999;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: all 0.4s ease;
+}
+
+.service-overlay.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.overlay-content {
+  max-width: 90%;
+  width: 800px;
+  background: linear-gradient(145deg, #176d77, #1f7c87);
+  padding: 30px;
+  border-radius: 20px;
+  position: relative;
+  line-height: 1.6;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.overlay-content:hover {
+  transform: none;
+}
+
+.overlay-content .close-overlay {
+  position: absolute;
+  top: 15px; right: 20px;
+  font-size: 36px;
+  cursor: pointer;
+  color: #f5d442;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.overlay-content .close-overlay:hover {
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.overlay-content div {
+  white-space: pre-line;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.service-overlay::-webkit-scrollbar {
+  width: 8px;
+}
+.service-overlay::-webkit-scrollbar-thumb {
+  background: #f5d442;
+  border-radius: 4px;
+}
+.service-overlay::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+}
+
+footer { background:#0b1f23; color:#fff; padding:60px 20px 30px; font-size:15px; line-height:1.6; }
+.footer-container { max-width:1100px; margin:0 auto; display:flex; gap:40px; flex-wrap:wrap; justify-content:space-between; }
+.footer-column { flex:1; min-width:220px; }
+.footer-column h3 { color:#f5d442; margin-bottom:20px; font-size:18px; text-transform:uppercase; letter-spacing:1px; }
+.footer-column ul { list-style:none; padding:0; }
+.footer-column li { margin-bottom:12px; }
+.footer-column a { color:#fff; text-decoration:none; transition:0.3s; }
+.footer-column a:hover { color:#f5d442; }
+.footer-column p { margin-bottom:12px; }
+.footer-social a { margin-right:12px; font-size:20px; display:inline-block; width:36px; height:36px; line-height:36px; text-align:center; background:#176d77; border-radius:50%; transition:0.3s; color:#fff; }
+.footer-social a:hover { background:#f5d442; color:#000; }
+.footer-bottom { max-width:1100px; margin:30px auto 0; text-align:center; border-top:1px solid rgba(255,255,255,0.2); padding-top:15px; font-size:14px; opacity:0.8; }
+
+@media(max-width:900px){ .logo span{display:none} .hamburger { display: flex; } nav ul { position: absolute; top: 80px; right: 20px; background: #176d77; flex-direction: column; width: 200px; padding: 20px; border-radius: 12px; display: none; } nav ul.show { display: flex; } }
+@media(max-width:600px){ .service-grid { grid-template-columns: 1fr; gap:15px; } }
+</style>
+<link rel="icon" type="image/png" sizes="16x16" href="Afbeeldingen/logo2.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Afbeeldingen/logo2.png">
+<link rel="icon" type="image/png" sizes="48x48" href="Afbeeldingen/logo2.png">
+<link rel="icon" type="image/png" sizes="64x64" href="Afbeeldingen/logo2.png">
+<link rel="shortcut icon" href="Afbeeldingen/favicon.ico">
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="logo-glow"><img src="Afbeeldingen/logo.png"></div>
+    <h1 id="heroTitle"></h1>
+    <a href="#content" class="scroll-down"><span></span></a>
+  </div>
+</div>
+
+<header>
+  <div class="navbar">
+    <div class="logo"><img src="Afbeeldingen/logo1.png"></div>
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+    <nav>
+      <ul>
+        <li><a id="menu0" href="index.html"></a></li>
+        <li><a id="menu1" href="referenties.html"></a></li>
+        <li><a id="menu2" href="dienst.html"></a></li>
+        <li><a id="menu3" href="Prijs.html"></a></li>
+        <li><a id="menu4" href="contact.html"></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <h2 style="text-align:center;margin-bottom:40px;" id="servicesTitle"></h2>
+  <div class="service-grid">
+    <div class="service-card" data-service="mastering"><h3></h3><p class="click-read"></p></div>
+    <div class="service-card" data-service="mixing"><h3></h3><p class="click-read"></p></div>
+    <div class="service-card" data-service="live"><h3></h3><p class="click-read"></p></div>
+    <div class="service-card" data-service="recording"><h3></h3><p class="click-read"></p></div>
+    <div class="service-card" data-service="studio"><h3></h3><p class="click-read"></p></div>
+    <div class="service-card" data-service="muzikanten"><h3></h3><p class="click-read"></p></div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3 id="footerLinks"></h3>
+      <ul>
+        <li><a href="index.html"></a></li>
+        <li><a href="referenties.html"></a></li>
+        <li><a href="dienst.html"></a></li>
+        <li><a href="Prijs.html"></a></li>
+        <li><a href="contact.html"></a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3 id="footerContact"></h3>
+      <p><i class="fas fa-envelope"></i> frank@dendaz.be</p>
+      <p><i class="fas fa-phone"></i> +32 492 12 73 40</p>
+      <p><i class="fas fa-map-marker-alt"></i> België</p>
+    </div>
+    <div class="footer-column">
+      <h3 id="footerFollow"></h3>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p id="copyright"></p>
+  </div>
+</footer>
+
+<script>
+// Detect browser language en fallback naar EN
+const lang = (navigator.language || navigator.userLanguage).substring(0,2);
+const language = ['nl','fr','en'].includes(lang) ? lang : 'en';
+
+// UI vertalingen
+const texts = {
+nl:{hero:"Diensten",menu:["Home","Referentie","Diensten","Tarieven","Contact"],servicesTitle:"Onze Diensten",clickRead:"Klik en lees meer",footerLinks:"Quick links",footerContact:"Contact",footerFollow:"Volg ons",copyright:"© 2025 Dendaz Music"},
+fr:{hero:"Services",menu:["Accueil","Références","Services","Tarifs","Contact"],servicesTitle:"Nos Services",clickRead:"Cliquez pour lire",footerLinks:"Liens rapides",footerContact:"Contact",footerFollow:"Suivez-nous",copyright:"© 2025 Dendaz Music"},
+en:{hero:"Services",menu:["Home","References","Services","Prices","Contact"],servicesTitle:"Our Services",clickRead:"Click to read more",footerLinks:"Quick links",footerContact:"Contact",footerFollow:"Follow us",copyright:"© 2025 Dendaz Music"},
+};
+
+const t = texts[language];
+document.getElementById("heroTitle").innerText = t.hero;
+document.getElementById("servicesTitle").innerText = t.servicesTitle;
+t.menu.forEach((m,i)=>{
+  document.getElementById("menu"+i).innerText=m;
+  document.querySelectorAll('footer ul li a')[i].innerText=m;
+});
+document.getElementById("footerLinks").innerText = t.footerLinks;
+document.getElementById("footerContact").innerText = t.footerContact;
+document.getElementById("footerFollow").innerText = t.footerFollow;
+document.getElementById("copyright").innerText = t.copyright;
+
+document.getElementById('hamburger').addEventListener('click', ()=>{
+  document.querySelector('nav ul').classList.toggle('show');
+});
+
+// Services content inclusief volledige teksten in alle talen
+const servicesContent = {
+mastering:{
+title:{nl:"Mastering",fr:"Mastering",en:"Mastering"},
+content:{
+nl:`Mastering is de laatste stap na het mixen van uw muziek, om uw werk verder te verdelen, te verkopen, te gebruiken in Dj-sets, te persen op vinyl, online aan te bieden op streamingdiensten (Apple Music, Spotify, Deezer, Youtube,…). 
+Wij controleren uw toonbalans, de helderheid van uw muziek, het stereobeeld, de niveaus en over het algemeen: de kwaliteit om uw muziek aan de wereld te laten horen.
+
+Mastering gebeurt zowel “in the box” als “in de analoge chain”.
+Bij Dendaz Music beschikken wij over een uitgebreid gamma hoogwaardige analoge mastering apparatuur, waarvan een groot gedeelte reeds met digitale “Recall” voorzien is.
+
+Stereo Mastering: 24 bit/48kHz standard, Wav - MP3 - AAC
+Apple Digital Masters: 24 bit/96kHz, AAC or Wav
+Dolby Atmos Digital tot 7.1.4 of lager, 24 bit/48kHz
+
+Inbegrepen in onze mastering service:
+
+Stereo Mastering:
+- Standaard oplevering 5-7 dagen
+- 4 Formaten voor Streaming, Apple Music, Youtube en Performance
+- Max 2 herbewerkingen binnen periode van 2 weken
+- Extra snelle levering optioneel
+
+Stems Mastering:
+- Standaard oplevering 5-7 dagen
+- 4 Formaten voor Streaming, Apple Music, Youtube en Performance
+- Performance Mix, zonder de leadvocal
+- Master van de instrumentale versie
+- Master van Radio - en extended versie
+- Max 2 herbewerkingen binnen periode van 1 maand
+- Extra Stems masters optioneel (Bass - Drum - Synths - Gitaren - Acapella…)
+- Extra snelle levering optioneel`,
+fr:`Le mastering est la dernière étape après le mixage de votre musique, pour préparer votre œuvre à la distribution, à la vente, à l'utilisation dans les sets DJ, au pressage vinyle et à la diffusion sur les plateformes de streaming (Apple Music, Spotify, Deezer, Youtube,...).
+Nous contrôlons l'équilibre tonal, la clarté, l'image stéréo, les niveaux et, en général, la qualité afin que votre musique soit prête à être écoutée par le monde entier.
+
+Le mastering peut se faire "in the box" ou via la chaîne analogique.
+Chez Dendaz Music, nous disposons d'une large gamme d'équipements de mastering analogiques de haute qualité, dont une grande partie est déjà équipée de "Recall" numérique.
+
+Mastering Stéréo : 24 bit/48kHz standard, Wav - MP3 - AAC
+Apple Digital Masters : 24 bit/96kHz, AAC ou Wav
+Dolby Atmos Digital jusqu'à 7.1.4 ou moins, 24 bit/48kHz
+
+Inclus dans notre service de mastering :
+
+Mastering Stéréo :
+- Livraison standard 5-7 jours
+- 4 formats pour Streaming, Apple Music, Youtube et Performance
+- Maximum 2 révisions dans un délai de 2 semaines
+- Livraison rapide optionnelle
+
+Stems Mastering :
+- Livraison standard 5-7 jours
+- 4 formats pour Streaming, Apple Music, Youtube et Performance
+- Mix Performance, sans la voix principale
+- Master de la version instrumentale
+- Master des versions radio et étendues
+- Maximum 2 révisions dans un délai de 1 mois
+- Stems masters supplémentaires optionnels (Basse - Batterie - Synths - Guitares - Acapella…)
+- Livraison rapide optionnelle`,
+en:`Mastering is the final step after mixing your music, to further distribute, sell, use in DJ sets, press on vinyl, and offer online via streaming platforms (Apple Music, Spotify, Deezer, Youtube,…).
+We check tonal balance, clarity of the music, stereo image, levels and overall quality to make your music ready for the world.
+
+Mastering can be done "in the box" or via the analog chain.
+At Dendaz Music, we have a wide range of high-end analog mastering equipment, much of which is digitally recallable.
+
+Stereo Mastering: 24 bit/48kHz standard, Wav - MP3 - AAC
+Apple Digital Masters: 24 bit/96kHz, AAC or Wav
+Dolby Atmos Digital up to 7.1.4 or lower, 24 bit/48kHz
+
+Included in our mastering service:
+
+Stereo Mastering:
+- Standard delivery 5-7 days
+- 4 formats for Streaming, Apple Music, Youtube and Performance
+- Max 2 revisions within 2 weeks
+- Extra fast delivery optional
+
+Stems Mastering:
+- Standard delivery 5-7 days
+- 4 formats for Streaming, Apple Music, Youtube and Performance
+- Performance Mix, without lead vocal
+- Master of instrumental version
+- Master of radio and extended version
+- Max 2 revisions within 1 month
+- Extra Stems masters optional (Bass - Drums - Synths - Guitars - Acapella…)
+- Extra fast delivery optional`}},
+mixing:{title:{nl:"Studio Mixing",fr:"Mixage Studio",en:"Studio Mixing"},
+content:{
+nl:`Een mix is de volledige band laten samensmelten, in balans brengen van uw muzikale productie.
+Voorzien van de nodige effecten op de gepaste momenten, om van alle individuele instrumenten een geheel te maken die jouw verhaal vertelt.
+Om te starten vragen wij u alle individuele tracks of Stems aan te leveren via Transfer of dropbox.
+De mix wordt in onze DAW gemaakt, en waar nodig ook door onze outboardrack onder handen genomen om het gewenste resultaat te bekomen.
+
+Er wordt uitgebreid gekeken waar welke equalizer wordt toegepast, waar compressie nodig is, of het stereobeeld in fase blijft, waar saturatie nodig is, welke instrumentlijnen in welke bussen wordt gestoken, waar een sidechain wordt toegepast, wie welke effecten nodig heeft, enz.
+
+Bij de mix wordt steeds rekening gehouden met de nodige “Headroom “, die we nodig hebben voor de mastering. 
+Bij mixen is een andere vorm van processing nodig in vergelijking met mastering. 
+
+Er kunnen tot 128 sporen aangeleverd worden, afhankelijk van uw project zal dit ook de prijs bepalen. Extra tracks kunnen op voorhand apart in Stems gemixt worden en geïntegreerd in uw project, bij bijvoorbeeld een groot koor met symfonisch orkest.
+
+In de studio is een systeem van Genelec geïnstalleerd tot 7.1.4 max, Digitaal (AES) aangestuurd.
+
+Wij kunnen ook alle bestaande stereo bestanden van vroegere masters upmixen naar Dolby Atmos, waardoor een 3D effect wordt gecreëerd en deze via Apple Music als Spatial audio kan beluisterd worden via AirPods, Beats hoofdtelefoon, Sono’s systemen en andere zoals Car-Hifi of home cinema systemen.
+
+Inbegrepen in de mixing service:
+
+Stereo Mix & Mastering:
+Standaard oplevering 5-7 dagen
+Mix 2 tot 10-20-40-100 tracks
+Wav bestand(en) voor (Stems) Mastering 
+24bit/48kHz standaard, tot 24bit/96kHz optioneel
+Inclusief Stereo Master WAV 24bit/48kHz
+
+Dolby Atmos Mixing & Mastering:
+Standaard oplevering 7-10 dagen
+Mix 2 tot 10-20-40-100 tracks
+Objects routing voor een 3D-effect
+Maximum Dolby Atmos 7.1.4 of elke versie lager.
+24bit/48kHz tot 32bit/96kHz max
+Mastering van de Dolby Atmos Mix ADM BWF
+Optioneel Stems voor multitrack weergave WAV
+Optioneel, PCM voor professionele postproductie
+Free Stereo Master WAV 24bit/48kHz
+
+Stereo Upmix:
+Standaard levering 5-7 dagen
+Bestaande Stereo mix of Mastertape
+Upmix met plugins
+
+Mastering van de Dolby Atmos Upmix ADM BWF 
+-Optioneel Upmix Stems voor multitrack weergave`,
+fr:`Un mix consiste à fusionner tous les instruments, en équilibrant votre production musicale. 
+Effets appliqués aux moments appropriés pour transformer tous les instruments individuels en un tout qui raconte votre histoire.
+Pour commencer, nous vous demandons de fournir toutes les pistes individuelles ou Stems via Transfer ou Dropbox.
+Le mix est réalisé dans notre DAW, et si nécessaire traité via notre outboard rack pour obtenir le résultat souhaité.
+
+On vérifie attentivement où chaque égaliseur est appliqué, où la compression est nécessaire, si l'image stéréo reste en phase, où la saturation est nécessaire, quelles lignes d'instruments vont dans quels bus, où un sidechain est appliqué, qui a besoin de quels effets, etc.
+
+Le mix tient toujours compte du "Headroom" nécessaire pour le mastering.
+Le mixage nécessite un traitement différent du mastering.
+
+Jusqu'à 128 pistes peuvent être fournies, selon votre projet, ce qui influencera le prix. Des pistes supplémentaires peuvent être pré-mixées séparément en Stems et intégrées dans votre projet, par exemple pour un grand chœur avec orchestre symphonique.
+
+En studio, un système Genelec jusqu'à 7.1.4 est installé, piloté numériquement (AES).
+
+Nous pouvons également upmixer tous les fichiers stéréo existants des masters précédents en Dolby Atmos, créant un effet 3D écoutable via Apple Music en Spatial Audio sur AirPods, Beats, systèmes Sono et autres comme Car-Hifi ou home cinema.
+
+Inclus dans le service de mixage :
+
+Stereo Mix & Mastering:
+- Livraison standard 5-7 jours
+- Mix 2 à 10-20-40-100 pistes
+- Fichiers Wav pour (Stems) Mastering
+- 24bit/48kHz standard, jusqu'à 24bit/96kHz optionnel
+- Inclus Stereo Master WAV 24bit/48kHz
+
+Dolby Atmos Mixing & Mastering:
+- Livraison standard 7-10 jours
+- Mix 2 à 10-20-40-100 pistes
+- Routing Objects pour effet 3D
+- Maximum Dolby Atmos 7.1.4 ou version inférieure
+- 24bit/48kHz à 32bit/96kHz max
+- Mastering du mix Dolby Atmos ADM BWF
+- Optionnel Stems pour lecture multitrack WAV
+- Optionnel PCM pour postproduction professionnelle
+- Stereo Master WAV 24bit/48kHz gratuit
+
+Stereo Upmix:
+- Livraison standard 5-7 jours
+- Mix ou Mastertape stéréo existant
+- Upmix avec plugins
+
+Mastering du Dolby Atmos Upmix ADM BWF 
+- Optionnel Upmix Stems pour lecture multitrack`,
+en:`A mix is blending the entire band together, balancing your musical production.
+Effects applied at the right moments to make all individual instruments form a whole that tells your story.
+To start, we ask you to provide all individual tracks or Stems via Transfer or Dropbox.
+The mix is done in our DAW, and if needed, also processed through our outboard rack to achieve the desired result.
+
+Careful attention is given to where equalizers are applied, where compression is needed, if the stereo image stays in phase, where saturation is needed, which instrument lines go into which buses, where sidechains are applied, who needs which effects, etc.
+
+Mixing always takes into account the necessary “Headroom” needed for mastering.
+Mixing requires a different type of processing compared to mastering.
+
+Up to 128 tracks can be provided; depending on your project this will also affect the price. Extra tracks can be pre-mixed separately into Stems and integrated into your project, for example a large choir with a symphonic orchestra.
+
+In the studio a Genelec system up to 7.1.4 is installed, digitally (AES) controlled.
+
+We can also upmix all existing stereo files from previous masters to Dolby Atmos, creating a 3D effect which can be listened to via Apple Music as Spatial Audio on AirPods, Beats headphones, Sono systems, and others like Car HiFi or home cinema systems.
+
+Included in the mixing service:
+
+Stereo Mix & Mastering:
+- Standard delivery 5-7 days
+- Mix 2 to 10-20-40-100 tracks
+- Wav file(s) for (Stems) Mastering
+- 24bit/48kHz standard, up to 24bit/96kHz optional
+- Includes Stereo Master WAV 24bit/48kHz
+
+Dolby Atmos Mixing & Mastering:
+- Standard delivery 7-10 days
+- Mix 2 to 10-20-40-100 tracks
+- Objects routing for a 3D effect
+- Maximum Dolby Atmos 7.1.4 or lower
+- 24bit/48kHz to 32bit/96kHz max
+- Mastering of Dolby Atmos Mix ADM BWF
+- Optional Stems for multitrack playback WAV
+- Optional PCM for professional post-production
+- Free Stereo Master WAV 24bit/48kHz
+
+Stereo Upmix:
+- Standard delivery 5-7 days
+- Existing Stereo mix or Mastertape
+- Upmix with plugins
+
+Mastering of Dolby Atmos Upmix ADM BWF 
+- Optional Upmix Stems for multitrack playback`}
+},
+//...rest van de services kunnen hier hetzelfde blijven
+live:{title:{nl:"Live Mixing",fr:"Mixage Live",en:"Live Mixing"},content:{nl:`Live PA:
+
+Inpriksets voor bands met ervaren FOH en/of Stage engineers die uw geluid regelen tot in de kleinste details.
+Wij gebruiken Yamaha mixers en stageblokken, Shure PSM InEar monitor systemen, RCF floor monitors 12” en 15”.
+Iedere versterking vraagt een specifieke microfoon, per instrument,  met aangepaste statieven K&M.
+Draadloze systemen van Shure voor zanger/zangeres, presentator of muzikant tot 80m van het podium.
+
+Wij bieden voor de muzikanten opties met Multitrack playback/recording, Backingtracks, Clicktrack, Intro/Outro’s.
+Indien de setup dit vereist, zorgen we voor een “Systeem Check”, “Delay” instellingen, Real Time Analizer en akoestische metingen.
+
+
+Live On Tape mixing:
+
+De laatste jaren zijn we ook heel actief geweest bij het begeleiden van artiesten “Live on Tape”.
+Vanuit verschillende media kunnen uw tracks afgespeeld worden: Ipad, SoundQ,DAW-Multitrack…
+Onze In-Ear systemen zorgen voor een feilloze monitoring, net als onze draadloze microfoons met verwisselbare microfoonkoppen zoals B58, sE7, RPW204,… of headsets van DPA & Sennheiser.
+Wij kiezen resoluut voor een Yamaha mengpaneel met een open sound.
+Door onze ervaring kunnen wij snel inspelen op elke situatie en zorgen wij voor het comfort van de artiest.
+LOT-instrumentale versies, mixes, intro’s en reprises kunnen in de studio op maat worden gemaakt.
+`,fr:`Live PA :
+
+Kits d'amplification pour groupes avec ingénieurs FOH et/ou Stage expérimentés qui régulent votre son dans les moindres détails.
+Nous utilisons des tables de mixage et des blocs de scène Yamaha, des systèmes de monitoring intra-auriculaire Shure PSM, des moniteurs de scène RCF 12” et 15”.
+Chaque amplification nécessite un microphone spécifique, par instrument, avec des pieds K&M adaptés.
+Systèmes sans fil Shure pour chanteur/chanteuse, présentateur ou musicien jusqu'à 80 m de la scène.
+
+Nous proposons aux musiciens des options avec lecture/enregistrement multipiste, pistes d'accompagnement, clic, intro/outro.
+Si la configuration l'exige, nous assurons un « System Check », les réglages « Delay », Real Time Analizer et les mesures acoustiques.
+
+
+Mixage Live On Tape :
+
+Ces dernières années, nous avons également été très actifs dans l'accompagnement d'artistes « Live on Tape ».
+Vos morceaux peuvent être lus à partir de différents supports : iPad, SoundQ, DAW-Multitrack...
+Nos systèmes intra-auriculaires garantissent un monitoring sans faille, tout comme nos microphones sans fil avec des têtes interchangeables telles que B58, sE7, RPW204... ou les casques DPA & Sennheiser.
+Nous avons résolument opté pour une table de mixage Yamaha au son ouvert.
+Grâce à notre expérience, nous pouvons réagir rapidement à chaque situation et assurer le confort de l'artiste.
+Les versions instrumentales LOT, les mixages, les intros et les reprises peuvent être réalisés sur mesure en studio.
+`,en:`Live PA:
+
+Plug-in sets for bands with experienced FOH and/or stage engineers who control your sound down to the smallest details.
+We use Yamaha mixers and stage blocks, Shure PSM InEar monitor systems, RCF floor monitors 12‘ and 15’.
+Each amplification requires a specific microphone for each instrument, with customised K&M stands.
+Shure wireless systems for singers, presenters or musicians up to 80 metres from the stage.
+
+We offer musicians options with multitrack playback/recording, backing tracks, click tracks, intros/outros.
+If the setup requires it, we provide a ‘System Check’, ‘Delay’ settings, Real Time Analyser and acoustic measurements.
+
+
+Live On Tape mixing:
+
+In recent years, we have also been very active in accompanying artists ‘Live on Tape’.
+Your tracks can be played from various media: iPad, SoundQ, DAW Multitrack, etc.
+Our in-ear systems ensure flawless monitoring, as do our wireless microphones with interchangeable microphone heads such as B58, sE7, RPW204, etc., or headsets from DPA & Sennheiser.
+We resolutely opt for a Yamaha mixing console with an open sound.
+Thanks to our experience, we can respond quickly to any situation and ensure the comfort of the artist.
+LOT instrumental versions, mixes, intros and reprises can be customised in the studio.
+`}},
+recording:{title:{nl:"Recording",fr:"Enregistrement",en:"Recording"},content:{nl:`“Multitrack recording” van een live-evenement,  in externe studio’s, …zelfs bij u thuis.
+Opnames kunnen rechtstreeks via Danté of soundcard geregistreerd worden om achteraf in de studio te mixen naar stereo of Dolby Atmos Mix.
+Een live-optreden kunnen we opnemen via een ontkoppeling van de microfoons, en extra ambiance microfoons die wij zelf bijplaatsen
+
+De meest gebruikte opname technieken zijn: close-mic per instrument, AB, XY, Blumlein, ORTF.
+Wij beschikken over een ruim aanbod specifieke microfoons van: Audix, Ashton, Australian Audio, AKG, Audio Technica, Beyerdynamic, ElectroVoice, Neumann, sE Electronics, Shure, Sennheiser.
+Actieve en passive DI’s: Palmer, Radial, BSS
+
+Opname interfaces van Yamaha, SSL, SPL of Motu
+
+In onze control room kunnen wij maximum 2 personen opnemen: zang, gitaar, keyboard (geen drums)
+Voor volledige bandsessies boeken wij een externe studioruimte waar we de opname in optimale omstandigheden kunnen registreren. Monitoringsystemen zijn ter beschikking tijdens de opnames.
+`,fr:`« Enregistrement multipiste » d'un événement en direct,  dans des studios externes, ... voire chez vous.
+Les enregistrements peuvent être enregistrés directement via Danté ou une carte son afin d'être mixés ultérieurement en studio en stéréo ou en Dolby Atmos Mix.
+Nous pouvons enregistrer un spectacle en direct grâce à un découplage des microphones et à des microphones d'ambiance supplémentaires que nous installons nous-mêmes.
+
+Les techniques d'enregistrement les plus couramment utilisées sont : micro proche par instrument, AB, XY, Blumlein, ORTF.
+Nous disposons d'une large gamme de microphones spécifiques de : Audix, Ashton, Australian Audio, AKG, Audio Technica, Beyerdynamic, ElectroVoice, Neumann, sE Electronics, Shure, Sennheiser.
+DI actives et passives : Palmer, Radial, BSS
+
+Interfaces d'enregistrement Yamaha, SSL, SPL ou Motu
+
+Notre salle de contrôle peut accueillir jusqu'à 2 personnes : chant, guitare, clavier (pas de batterie)
+Pour les sessions de groupe complètes, nous réservons un studio externe où nous pouvons enregistrer dans des conditions optimales. Des systèmes de monitoring sont disponibles pendant les enregistrements.`,en:`Multitrack recording of a live event, in external studios, or even at your home.
+Recordings can be captured directly via Dante or sound card for subsequent mixing in the studio to stereo or Dolby Atmos Mix.
+We can record a live performance by decoupling the microphones and adding additional ambience microphones that we provide ourselves.
+
+The most commonly used recording techniques are: close mic per instrument, AB, XY, Blumlein, ORTF.
+We have a wide range of specific microphones from: Audix, Ashton, Australian Audio, AKG, Audio Technica, Beyerdynamic, ElectroVoice, Neumann, sE Electronics, Shure, Sennheiser.
+Active and passive DI's: Palmer, Radial, BSS
+
+Recording interfaces from Yamaha, SSL, SPL or Motu
+
+In our control room, we can record a maximum of 2 people: vocals, guitar, keyboard (no drums)
+For full band sessions, we book an external studio space where we can record in optimal conditions. Monitoring systems are available during recording.`}},
+studio:{title:{nl:"Studio",fr:"Studio",en:"Studio"},content:{nl:`Met een uitgemeten luidspreker systeem monitoren we uw Dolby Atmos 7.1.4 Digitaal (AES)
+En een PMC 6-2 paar luidsprekers voor de monitoring van onze analoge mastering sound.
+Desk control luidsprekers van IK-Multimedia Iloud MTM paar.
+
+Mac studio M4, Logic, Ableton, Wavelab, Qlab
+Interfaces: Motu, Antelope, Dangerous Music
+RTA: Clarity M
+Accoustics: Petac, absorbers, diffusers, cornertraps, basstraps
+Power distribution Art PS4x4 en Art PB 4x4
+40” flatscreen monitor met lift
+
+Outboard:
+Rupert Neve Designs MBP, WES Audio NG Tubecomp & NG TubeEQ, TK-Audio Transformer, Cranborn Audio HE2, SSL Fusion & Bus+, SPL BIG - Vitalizer, SPL Track One & TD4, API 5500 & 2500+, Emperical Labs Fatso & Distressors, Waves L2, Tegeler Audio Crème RC, Avalon 747 sp, Black Lion Audio Bluey, Warm-Audio 273EQ, Midas XL42, Golden Age Project EQ-73 & EQ-81, BSS DPR901-II, Dangerous Music Bax EQ, Elysia XMax & Nvelope Mastering
+
+Instrumenten:
+Roland JP8080-TR8-SH201-XP50-SH01A-TB03-JU06-JU06A-JD08-D05
+Yamaha MODX6, Korg MS20 & Microkorg, Novation Mininova, Moog Subsequent 37
+ASM Hydrasynth, Acces Virus TI, Akai MPK249, Theoryboard T333
+
+DJ Desk:
+Pioneer XDJ-XZ & Technics 1210MK7
+
+Floormonitors RCF TT-20CXA
+In-Ear Shure PSM1000
+Hoofdtelefoon Beyerdynamic DT770 Pro & Nono Sound Reference
+
+`,fr:`Nous surveillons votre Dolby Atmos 7.1.4 Digital (AES) à l'aide d'un système de haut-parleurs calibré.
+Et une paire de haut-parleurs PMC 6-2 pour la surveillance de notre son de mastering analogique.
+Enceintes de contrôle de bureau IK-Multimedia Iloud MTM.
+
+Mac studio M4, Logic, Ableton, Wavelab, Qlab
+Interfaces : Motu, Antelope, Dangerous Music
+RTA : Clarity M
+Acoustique : Petac, absorbeurs, diffuseurs, cornertraps, basstraps
+Distribution électrique Art PS4x4 et Art PB 4x4
+Écran plat 40 pouces avec élévateur
+
+Outboard :
+Rupert Neve Designs MBP, WES Audio NG Tubecomp & NG TubeEQ, TK-Audio Transformer, Cranborn Audio HE2, SSL Fusion & Bus+, SPL BIG - Vitalizer, SPL Track One & TD4, API 5500 & 2500+, Emperical Labs Fatso & Distressors, Waves L2, Tegeler Audio Crème RC, Avalon 747 sp, Black Lion Audio Bluey, Warm-Audio 273EQ, Midas XL42, Golden Age Project EQ-73 & EQ-81, BSS DPR901-II, Dangerous Music Bax EQ, Elysia XMax & Nvelope Mastering
+
+Instruments :
+Roland JP8080-TR8-SH201-XP50-SH01A-TB03-JU06-JU06A-JD08-D05
+Yamaha MODX6, Korg MS20 & Microkorg, Novation Mininova, Moog Subsequent 37
+ASM Hydrasynth, Acces Virus TI, Akai MPK249, Theoryboard T333
+
+DJ Desk :
+Pioneer XDJ-XZ & Technics 1210MK7
+
+Moniteurs de scène RCF TT-20CXA
+Écouteurs intra-auriculaires Shure PSM1000
+Casque Beyerdynamic DT770 Pro & Nono Sound Reference
+`,en:`We monitor your Dolby Atmos 7.1.4 Digital (AES) with a calibrated speaker system.
+And a pair of PMC 6-2 speakers for monitoring our analogue mastering sound.
+Desk control speakers from IK-Multimedia Iloud MTM pair.
+
+Mac studio M4, Logic, Ableton, Wavelab, Qlab
+Interfaces: Motu, Antelope, Dangerous Music
+RTA: Clarity M
+Acoustics: Petac, absorbers, diffusers, corner traps, bass traps
+Power distribution Art PS4x4 and Art PB 4x4
+40" flat screen monitor with lift
+
+Outboard:
+Rupert Neve Designs MBP, WES Audio NG Tubecomp & NG TubeEQ, TK-Audio Transformer, Cranborn Audio HE2, SSL Fusion & Bus+, SPL BIG - Vitalizer, SPL Track One & TD4, API 5500 & 2500+, Emperical Labs Fatso & Distressors, Waves L2, Tegeler Audio Crème RC, Avalon 747 sp, Black Lion Audio Bluey, Warm-Audio 273EQ, Midas XL42, Golden Age Project EQ-73 & EQ-81, BSS DPR901-II, Dangerous Music Bax EQ, Elysia XMax & Nvelope Mastering
+
+Instruments:
+Roland JP8080-TR8-SH201-XP50-SH01A-TB03-JU06-JU06A-JD08-D05
+Yamaha MODX6, Korg MS20 & Microkorg, Novation Mininova, Moog Subsequent 37
+ASM Hydrasynth, Acces Virus TI, Akai MPK249, Theoryboard T333
+
+DJ Desk:
+Pioneer XDJ-XZ & Technics 1210MK7
+
+Floor monitors RCF TT-20CXA
+In-Ear Shure PSM1000
+Headphones Beyerdynamic DT770 Pro & Nono Sound Reference
+.`}},
+muzikanten:{title:{nl:"Speciaal Voor Muzikanten",fr:"Spécialement pour les musiciens",en:"Special For Musicians"},content:{nl:`-Ondersteuning bij producen van uw project en dit uitwerken tot een volwaardige song
+-Uw songs aanpassen om in een live setting te gebruiken
+-Ondersteuning voor artiesten met backingstracks, click, count, into-outro…
+-Live mixing en recording op multitrack bij repetities en virtuele soundcheck
+-Wij hebben een uitgebreid arsenaal aan microfoons, statieven en accessoires
+-Wij hebben contacten met platenlabels, boekingskantoren om u in de juiste richting te krijgen 
+-Wij werken samen met gerenommeerde lichtdesigners om uw show uit te werken
+-Er is een grote keus backline beschikbaar maar voor uw specifieke instrument  hebben wij contacten
+`,fr:`- Assistance dans la production de votre projet et son développement en une chanson à part entière
+- Adaptation de vos chansons pour une utilisation en live
+- Assistance aux artistes avec des pistes d'accompagnement, des clics, des comptes, des intros et des outros...
+-Mixage live et enregistrement multipiste lors des répétitions et des soundchecks virtuels
+-Nous disposons d'un vaste arsenal de microphones, de pieds et d'accessoires
+-Nous avons des contacts avec des maisons de disques et des agences de booking pour vous orienter dans la bonne direction
+-Nous travaillons avec des concepteurs lumière renommés pour mettre au point votre spectacle
+-Un large choix de backline est disponible, mais pour votre instrument spécifique, nous avons des contacts`,en:``}},
+};
+
+// Overlay functie met meertalige content
+document.querySelectorAll('.service-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const key = card.getAttribute('data-service');
+    const overlay = document.createElement('div');
+    overlay.classList.add('service-overlay', 'show');
+    overlay.innerHTML = `
+      <div class="overlay-content">
+        <span class="close-overlay">&times;</span>
+        <h2>${servicesContent[key].title[language]}</h2>
+        <div>${servicesContent[key].content[language]}</div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('.close-overlay').addEventListener('click', ()=>{
+      overlay.classList.remove('show');
+      setTimeout(()=> overlay.remove(), 400);
+    });
+  });
+});
+// Functie om overlay automatisch te openen via URL parameter
+function openServiceFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceKey = urlParams.get('service');
+  if(serviceKey && servicesContent[serviceKey]) {
+    const overlay = document.createElement('div');
+    overlay.classList.add('service-overlay', 'show');
+    overlay.innerHTML = `
+      <div class="overlay-content">
+        <span class="close-overlay">&times;</span>
+        <h2>${servicesContent[serviceKey].title[language]}</h2>
+        <div>${servicesContent[serviceKey].content[language]}</div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.querySelector('.close-overlay').addEventListener('click', ()=>{
+      overlay.classList.remove('show');
+      setTimeout(()=> overlay.remove(), 400);
+    });
+  }
+}
+
+// Roep functie aan bij het laden van de pagina
+window.addEventListener('DOMContentLoaded', openServiceFromURL);
+
+
+// Zet card titels en "klik en lees meer"
+const cardNames = ["mastering","mixing","live","recording","studio","muzikanten"];
+document.querySelectorAll('.service-card').forEach((card,i)=>{
+  card.querySelector('h3').innerText = servicesContent[cardNames[i]].title[language];
+  card.querySelector('.click-read').innerText = t.clickRead;
+});
+</script>
+</body>
+</html>

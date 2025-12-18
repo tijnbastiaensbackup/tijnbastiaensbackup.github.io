@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dendaz Music</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{background:#0f5c66;color:#fff;overflow-x:hidden}
+
+/* HERO */
+.hero{
+  height:100vh;
+  background:url('Afbeeldingen/Header2.jpg') center/cover no-repeat;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+}
+.hero-content{position:relative;z-index:2}
+
+/* LOGO GLOW */
+.logo-glow {
+  position: relative;
+  display: inline-block;
+}
+.logo-glow::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.62) 0%,
+    rgba(255,255,255,0) 70%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+.logo-glow img {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content img{width:180px;margin-bottom:20px}
+.hero h1{font-size:48px;margin-bottom:20px}
+
+/* SCROLL DOWN PIJL */
+.scroll-down{
+  display:inline-block;
+  width:30px;
+  height:50px;
+  border:2px solid #fff;
+  border-radius:25px;
+  position:relative;
+  cursor:pointer;
+  margin-top:20px;
+}
+.scroll-down span{
+  display:block;
+  width:6px;
+  height:6px;
+  background:#fff;
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:50%;
+  animation:scrollMove 2s infinite;
+}
+@keyframes scrollMove{
+  0%{top:10px;opacity:0;}
+  50%{top:25px;opacity:1;}
+  100%{top:40px;opacity:0;}
+}
+
+/* NAV */
+header{
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  padding:0 20px;
+  z-index:10;
+}
+.navbar{
+  background:#176d77;
+  padding:20px 40px;
+  border-radius:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{display:flex;align-items:center;gap:15px;font-weight:bold}
+.logo img{width:120px}
+nav ul{list-style:none;display:flex;gap:20px}
+nav a{color:#fff;text-decoration:none;padding:8px 16px;border-radius:8px}
+nav a:hover{background:rgba(255,255,255,.15)}
+
+/* HAMBURGER MENU */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* MAIN */
+main{padding:80px 20px}
+
+/* ABOUT */
+.about-section{
+  max-width:1100px;
+  margin:0 auto 80px;
+  display:grid;
+  grid-template-columns:1fr 2px 1fr;
+  gap:40px;
+  align-items:center;
+}
+.about-section img{width:100%;border-radius:16px}
+.about-divider{background:#fff;height:100%}
+.about-text h2{font-size:32px;margin-bottom:20px}
+.about-text p{line-height:1.8}
+
+/* WHY */
+.why-title{text-align:center;font-size:32px;margin-bottom:40px}
+.why-container{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
+}
+.why-box{background:#176d77;padding:30px;border-radius:18px}
+.why-box h3{color:#f5d442;margin-bottom:12px}
+.why-box p{line-height:1.8}
+
+/* SERVICES */
+.services-wrapper{
+  max-width:1100px;
+  margin:80px auto;
+}
+.services-title{
+  font-size:32px;
+  margin-bottom:30px;
+}
+.services-section{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+}
+.services-left{display:flex;flex-direction:column;gap:20px}
+.service-box{
+  background:#176d77;
+  padding:20px;
+  border-left:4px solid #f5d442;
+  border-radius:12px;
+}
+.service-box span{color:#f5d442;font-weight:bold;display:block;margin-bottom:6px}
+
+/* SERVICE BOXEN AFGERONDE FOTO'S */
+.services-right{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+}
+.service-circle{
+  width:100%;
+  max-width:260px;
+  aspect-ratio:1/1;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  margin-bottom:20px;
+}
+.service-circle img{width:100%;height:100%;object-fit:cover}
+
+/* FOOTER */
+footer {
+  background:#0b1f23;
+  color:#fff;
+  padding:60px 20px 30px;
+  font-size:15px;
+  line-height:1.6;
+}
+.footer-container {
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  gap:40px;
+  flex-wrap:wrap;
+  justify-content:space-between;
+}
+.footer-column {
+  flex:1;
+  min-width:220px;
+}
+.footer-column h3 {
+  color:#f5d442;
+  margin-bottom:20px;
+  font-size:18px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.footer-column ul {
+  list-style:none;
+  padding:0;
+}
+.footer-column li {
+  margin-bottom:12px;
+}
+.footer-column a {
+  color:#fff;
+  text-decoration:none;
+  transition:0.3s;
+}
+.footer-column a:hover {
+  color:#f5d442;
+}
+.footer-column p {
+  margin-bottom:12px;
+}
+.footer-social a {
+  margin-right:12px;
+  font-size:20px;
+  display:inline-block;
+  width:36px;
+  height:36px;
+  line-height:36px;
+  text-align:center;
+  background:#176d77;
+  border-radius:50%;
+  transition:0.3s;
+  color:#fff;
+}
+.footer-social a:hover {
+  background:#f5d442;
+  color:#000;
+}
+.footer-bottom {
+  max-width:1100px;
+  margin:30px auto 0;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.2);
+  padding-top:15px;
+  font-size:14px;
+  opacity:0.8;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .about-section{grid-template-columns:1fr}
+  .about-divider{display:none}
+  .why-container{grid-template-columns:1fr}
+  .services-section{grid-template-columns:1fr}
+  .services-right{
+    flex-direction:row;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .service-circle{max-width:200px}
+  .logo span{display:none}
+  .hamburger { display: flex; }
+  nav ul {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: #176d77;
+    flex-direction: column;
+    width: 200px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+  }
+  nav ul.show { display: flex; }
+}
+</style>
+<link rel="icon" type="image/png" sizes="16x16" href="Afbeeldingen/logo2.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Afbeeldingen/logo2.png">
+<link rel="icon" type="image/png" sizes="48x48" href="Afbeeldingen/logo2.png">
+<link rel="icon" type="image/png" sizes="64x64" href="Afbeeldingen/logo2.png">
+<link rel="shortcut icon" href="Afbeeldingen/favicon.ico">
+
+
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="logo-glow">
+      <img src="Afbeeldingen/logo.png">
+    </div>
+    <h1 id="heroTitle"></h1>
+    <a href="#content" class="scroll-down"><span></span></a>
+  </div>
+</div>
+
+<!-- NAV -->
+<header>
+  <div class="navbar">
+    <div class="logo">
+      <img src="Afbeeldingen/logo1.png">
+    </div>
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav>
+      <ul>
+        <li><a id="menu0" href="index.html"></a></li>
+        <li><a id="menu1" href="referenties.html"></a></li>
+        <li><a id="menu2" href="dienst.html"></a></li>
+        <li><a id="menu3" href="Prijs.html"></a></li>
+        <li><a id="menu4" href="contact.html"></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+
+<!-- ABOUT -->
+<div class="about-section">
+  <img src="Afbeeldingen/over-dendaz.jpg">
+  <div class="about-divider"></div>
+  <div class="about-text">
+    <h2 id="aboutTitle"></h2>
+    <p id="aboutText"></p>
+  </div>
+</div>
+
+<!-- WHY -->
+<h2 class="why-title" id="whyTitle"></h2>
+<div class="why-container">
+  <div class="why-box"><h3></h3><p></p></div>
+  <div class="why-box"><h3></h3><p></p></div>
+  <div class="why-box"><h3></h3><p></p></div>
+</div>
+
+<!-- SERVICES -->
+<div class="services-wrapper">
+  <h2 class="services-title" id="servicesTitle"></h2>
+  <section class="services-section">
+    <div class="services-left">
+    <div class="service-box"><h3 id="s1"></h3><span id="s1p"></span><p id="s1m"></p></div>
+       <div class="service-box"><h3 id="s2"></h3><span id="s2p"></span><p id="s2m"></p></div>
+      <div class="service-box"><h3 id="s3"></h3><span id="s3p"></span><p id="s3m"></p></div>
+      <div class="service-box"><h3 id="s4"></h3><p id="s4m"></p></div>
+      <div class="service-box"><h3 id="s5"></h3><p id="s5m"></p></div>
+    </div>
+    <div class="services-right">
+      <div class="service-circle"><img src="Afbeeldingen/dienst1.jpg"></div>
+      <div class="service-circle"><img src="Afbeeldingen/dienst2.jpg"></div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3 id="footerLinks"></h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="referenties.html">Referenties</a></li>
+        <li><a href="dienst.html">Diensten</a></li>
+        <li><a href="Prijs.html">Tarieven</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3 id="footerContact"></h3>
+      <p><i class="fas fa-envelope"></i> frank@dendaz.be</p>
+      <p><i class="fas fa-phone"></i> +32 492 12 73 40</p>
+      <p><i class="fas fa-map-marker-alt"></i> België</p>
+    </div>
+    <div class="footer-column">
+      <h3 id="footerFollow"></h3>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p id="copyright"></p>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  nl: {
+    hero: "Welkom bij Dendaz Music",
+    menu: ["Home", "Referentie", "Diensten", "Tarieven", "Contact"],
+    aboutTitle: "Over Dendaz",
+    aboutText: `Dendaz Music, sedert 2022,<br>
+Een dynamisch bedrijf gespecialiseerd in het leveren van hoogwaardige diensten voor artiesten, producers, Dj’s, platenfirma’s, bedrijven, media en organisatoren.<br><br>
+Opgericht door Frank Houthaeve, reeds 35 jaar ervaring als mixer - sound engineer bij artiesten nationaal en internationaal.<br>
+Gediplomeerd “Realisator Van Audio Producties” bij PXL (BE-Genk)<br>
+Erkende studio voor Apple Digital Master & Dolby Atmos 7.1.4 Digital<br>
+U kan bij ons terecht voor Studiomixing, Mastering, Producing, Recording en Live-PA.`,
+    whyTitle: "Waarom kiezen voor Dendaz Music:",
+    why: [
+      ["Professionele ervaring", "in een Digitale studio met top-apparatuur, alle hedendaagse snufjes zijn aanwezig om uw muzikaal werk naar een hoger niveau tillen"],
+      ["Persoonlijk aanpak", "Wij stemmen alles volledig af op jouw wensen en comfort als artiest, ongeacht het muziekgenre."],
+      ["Betrouwbaar & flexibel", "Professioneel afleveren, binnen een afgesproken tijdspanne, online, bij de klant of op een evenement."]
+    ],
+    servicesTitle: "Diensten",
+    services: {
+      s1: "Mastering", s1p: "Stereo vanaf €75 / Stems vanaf €100", s1m: "Klik hier voor meer info",
+      s2: "Studio Mixing", s2p: "Stereo vanaf €250 / Dolby Atmos vanaf €450", s2m: "Klik hier voor meer info",
+      s3: "Live Mixing", s3p: "Prijs vanaf aanvraag", s3m: "Klik hier voor meer info",
+      s4: "Recording", s4m: "Klik hier voor meer info",
+      s5: "Studio", s5m: "Klik hier voor meer info"
+    },
+    footerLinks: "Quick links",
+    footerContact: "Contact",
+    footerFollow: "Volg ons",
+    copyright: "© 2025 Dendaz Music"
+  },
+  fr: {
+    hero: "Bienvenue chez Dendaz Music",
+    menu: ["Accueil", "À propos", "Services", "Tarifs", "Contact"],
+    aboutTitle: "À propos de Dendaz",
+    aboutText: `Dendaz Music, depuis 2022.<br><br>
+Une entreprise dynamique spécialisée dans des services de haute qualité pour les artistes, producteurs, DJ, labels, entreprises, médias et organisateurs.<br><br>
+Fondée par Frank Houthaeve, avec 35 ans d'expérience comme mixer et ingénieur du son.<br>
+Diplômé “Réalisateur de Productions Audio” à PXL (BE-Genk).<br>
+Studio reconnu Apple Digital Master & Dolby Atmos 7.1.4.`,
+    whyTitle: "Pourquoi Dendaz?",
+    why: [
+      ["Expérience professionnelle", "Studio numérique avec équipement moderne."],
+      ["Approche personnelle", "Entièrement adaptée à vos besoins."],
+      ["Fiable & flexible", "Professionnel et dans les délais."]
+    ],
+    servicesTitle: "Services",
+    services: {
+      s1: "Mastering", s1p: "Stéréo à partir de €75 / Stems à partir de €100", s1m: "Cliquez ici pour plus d'infos",
+      s2: "Studio Mixing", s2p: "Stéréo à partir de €250 / Dolby Atmos à partir de €450", s2m: "Cliquez ici pour plus d'infos",
+      s3: "Live Mixing", s3p: "Prix sur demande", s3m: "Cliquez ici pour plus d'infos",
+      s4: "Recording", s4m: "Cliquez ici pour plus d'infos",
+      s5: "Studio", s5m: "Cliquez ici pour plus d'infos"
+    },
+    footerLinks: "Liens rapides",
+    footerContact: "Contact",
+    footerFollow: "Suivez-nous",
+    copyright: "© 2025 Dendaz Music"
+  },
+  en: {
+    hero: "Welcome to Dendaz Music",
+    menu: ["Home", "About", "Services", "Pricing", "Contact"],
+    aboutTitle: "About Dendaz",
+    aboutText: `Dendaz Music, since 2022.<br><br>
+A dynamic company providing high-quality audio services for artists, producers, DJs, labels, companies, media and organizers.<br><br>
+Founded by Frank Houthaeve with 35 years experience as mixer and sound engineer.<br>
+Graduated “Realizator of Audio Productions” at PXL (BE-Genk).<br>
+Recognized Apple Digital Master & Dolby Atmos 7.1.4 studio.`,
+    whyTitle: "Why Dendaz?",
+    why: [
+      ["Professional experience", "Top digital studio with modern equipment."],
+      ["Personal approach", "Fully tailored to your needs."],
+      ["Reliable & flexible", "Professional delivery within deadlines."]
+    ],
+    servicesTitle: "Services",
+    services: {
+      s1: "Mastering", s1p: "Stereo from €75 / Stems from €100", s1m: "Click for more info",
+      s2: "Studio Mixing", s2p: "Stereo from €250 / Dolby Atmos from €450", s2m: "Click for more info",
+      s3: "Live Mixing", s3p: "Price on request", s3m: "Click for more info",
+      s4: "Recording", s4m: "Click for more info",
+      s5: "Studio", s5m: "Click for more info"
+    },
+    footerLinks: "Quick links",
+    footerContact: "Contact",
+    footerFollow: "Follow us",
+    copyright: "© 2025 Dendaz Music"
+  }
+};
+
+let lang = navigator.language.slice(0, 2);
+if (!translations[lang]) lang = "en";
+const t = translations[lang];
+
+document.getElementById("heroTitle").innerHTML = t.hero;
+t.menu.forEach((m, i) => document.getElementById("menu" + i).innerHTML = m);
+document.getElementById("aboutTitle").innerHTML = t.aboutTitle;
+document.getElementById("aboutText").innerHTML = t.aboutText;
+document.getElementById("whyTitle").innerHTML = t.whyTitle;
+
+document.querySelectorAll(".why-box").forEach((b, i) => {
+  b.querySelector("h3").innerHTML = t.why[i][0];
+  b.querySelector("p").innerHTML = t.why[i][1];
+});
+
+Object.keys(t.services).forEach(id => {
+  if(document.getElementById(id)) {
+    document.getElementById(id).innerHTML = t.services[id];
+  }
+});
+
+document.getElementById("servicesTitle").innerHTML = t.servicesTitle;
+document.getElementById("footerLinks").innerHTML = t.footerLinks;
+document.getElementById("footerContact").innerHTML = t.footerContact;
+document.getElementById("footerFollow").innerHTML = t.footerFollow;
+document.getElementById("copyright").innerHTML = t.copyright;
+
+// Hamburger menu toggle
+const hamburger = document.getElementById('hamburger');
+const navUl = document.querySelector('nav ul');
+hamburger.addEventListener('click', () => {
+  navUl.classList.toggle('show');
+});
+
+// Maak service-boxen klikbaar en stuur via URL naar diensten.html
+document.querySelectorAll(".services-left .service-box").forEach((box, index) => {
+  const links = [
+    "dienst.html?service=mastering",
+    "dienst.html?service=mixing",
+    "dienst.html?service=live",
+    "dienst.html?service=recording",
+    "dienst.html?service=studio"
+  ];
+  box.style.cursor = "pointer";
+  box.addEventListener("click", () => {
+    window.location.href = links[index];
+  });
+});
+
+</script>
+
+
+</body>
+</html>
