@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developer Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; font-family:'Roboto', sans-serif; background: linear-gradient(160deg, #0f2c3c, #001f2f); color:#fff; }
+* { box-sizing: border-box; }
+
+/* HEADER */
+header { display:flex; justify-content: space-between; align-items:center; padding:20px 40px; background: rgba(23,109,119,0.95); box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+header h1 { font-size:2em; color:#f5d442; margin:0; text-shadow: 0 0 10px #f5d442; }
+header button { background:#f5d442; color:#0f2c3c; border:none; padding:12px 18px; font-weight:bold; border-radius:12px; cursor:pointer; transition: all 0.3s ease; font-size:16px; }
+header button:hover { background:#0f2c3c; color:#f5d442; box-shadow:0 0 15px #f5d442; transform:scale(1.05); }
+
+/* MAIN LAYOUT */
+.main { display:flex; height:calc(100vh - 80px); overflow:hidden; }
+
+/* SIDEBAR */
+.sidemenu { width:220px; background: rgba(23,109,119,0.9); padding:20px; display:flex; flex-direction:column; gap:15px; box-shadow: 4px 0 15px rgba(0,0,0,0.4); transition: width 0.3s ease; }
+.sidemenu button { background:none; border:none; color:#fff; text-align:left; padding:12px; border-radius:10px; cursor:pointer; font-weight:500; display:flex; align-items:center; gap:10px; font-size:16px; transition: all 0.3s ease; }
+.sidemenu button:hover { background:#f5d442; color:#0f2c3c; transform:scale(1.05); }
+
+/* LOGS */
+.logs-container { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:30px; overflow:auto; }
+#logs-card { width:100%; max-width:800px; background: rgba(23,109,119,0.85); padding:30px; border-radius:25px; box-shadow:0 10px 50px rgba(0,0,0,0.6); }
+#logs-card h2 { color:#f5d442; margin-bottom:20px; text-shadow:0 0 5px #f5d442; font-size:1.8em; }
+#logs { background: rgba(0,0,0,0.25); border:2px solid #f5d442; border-radius:15px; height:450px; overflow-y:auto; padding:20px; font-family: monospace; font-size:14px; line-height:1.5; display:flex; flex-direction: column; gap:3px; }
+#logs-card button { margin-top:20px; background:#0f2c3c; color:#f5d442; border:none; padding:12px 18px; font-weight:bold; border-radius:12px; cursor:pointer; font-size:16px; text-shadow:0 0 5px #000; transition: all 0.3s ease; }
+#logs-card button:hover { background:#f5d442; color:#0f2c3c; box-shadow:0 0 15px #f5d442; transform: scale(1.05); }
+
+/* LOG ANIMATION */
+.log-entry { opacity:0; transform: translateY(10px); animation: fadeInUp 0.4s forwards; }
+@keyframes fadeInUp { to { opacity:1; transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .main { flex-direction:column; }
+    .sidemenu { width:100%; flex-direction:row; overflow-x:auto; padding:10px; }
+    .sidemenu button { flex:1; margin-right:10px; }
+    #logs-card { max-width:100%; }
+    header { flex-direction: column; gap:10px; padding:20px; }
+    header button { position:static; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🚀 Developer Panel</h1>
+    <button id="logout">🔒 Uitloggen</button>
+</header>
+
+<div class="main">
+    <!-- SIDEBAR -->
+    <div class="sidemenu">
+        <button id="tool1">💼 Portfolio Manager</button>
+        <button id="tool2">🛒 Webshop</button>
+        <button id="tool3">📊 Analyse</button>
+        <button id="tool4">📰 Nieuws</button>
+    </div>
+
+    <!-- LOGS -->
+    <div class="logs-container">
+        <div id="logs-card">
+            <h2>Logs</h2>
+            <div id="logs">
+                <p class="log-entry">[INFO] Panel geladen...</p>
+            </div>
+            <button id="testLog">📝 Test Log</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// CONFIG
+const users = { "admin":"admin123", "dev":"dev456" };
+const logsDiv = document.getElementById("logs");
+
+// LOG FUNCTION
+function logToPanel(action,color="#fff"){
+    if(logsDiv){
+        const p=document.createElement("p");
+        p.className="log-entry";
+        p.style.color=color;
+        p.textContent=`[${new Date().toLocaleString()}] ${action}`;
+        logsDiv.appendChild(p);
+        logsDiv.scrollTop = logsDiv.scrollHeight;
+    }
+}
+
+// GOOGLE SHEETS LOG
+function logToSheet(username,status){
+    fetch("https://script.google.com/macros/s/AKfycbxD0S6R-DwMJj26oIAdex_hSqK3-wzJmdqGajUT6b4hvQkFU8lblNif5bkuTDmeFpn5/exec",{
+        method:"POST",
+        body: JSON.stringify({user:username,status:status}),
+        headers: {"Content-Type":"application/json"}
+    }).then(res=>res.json()).then(data=>console.log("Spreadsheet log:",data)).catch(err=>console.error("Fout bij loggen:",err));
+}
+
+// LOGIN FLOW
+function loginFlow(){
+    let loggedUser=sessionStorage.getItem("devUser");
+    let fromPortfolio=sessionStorage.getItem("fromPortfolio");
+    if(loggedUser && fromPortfolio){
+        logToPanel(`Ingelogd door ${loggedUser} (van Portfolio Manager)`,"lightgreen");
+        logToSheet(loggedUser,"success");
+        sessionStorage.removeItem("fromPortfolio");
+    }else{
+        let user=prompt("Gebruikersnaam:");
+        let pass=prompt("Wachtwoord:");
+        if(!users[user] || users[user]!==pass){
+            alert("Onjuist gebruikersnaam of wachtwoord!");
+            logToSheet(user,"failed");
+            logToPanel(`Mislukte login door ${user}`,"red");
+            window.location.href="index.html";
+        }else{
+            sessionStorage.setItem("devUser",user);
+            logToSheet(user,"success");
+            logToPanel(`Ingelogd door ${user}`,"lightgreen");
+        }
+    }
+}
+
+// PAGE VISITS SIMULATION
+let pageVisits={ "index.html":Math.floor(Math.random()*100), "prijs.html":Math.floor(Math.random()*50), "contact.html":Math.floor(Math.random()*30) };
+function showAnalysis(){
+    logToPanel("Analyse geopend");
+    let mostVisited=Object.keys(pageVisits).reduce((a,b)=>pageVisits[a]>pageVisits[b]?a:b);
+    let analysis=`📊 Pagina bezoeken:\n`+Object.entries(pageVisits).map(([p,c])=>`${p}: ${c} bezoekers`).join('\n')+`\n🏆 Meest bezocht: ${mostVisited}`;
+    alert(analysis);
+}
+
+// EVENTS
+document.addEventListener("DOMContentLoaded",()=>{
+    loginFlow();
+
+    // Portfolio Manager
+    document.getElementById("tool1").addEventListener("click",()=>{
+        const user=sessionStorage.getItem("devUser");
+        if(user) sessionStorage.setItem("fromPortfolio","true");
+        logToPanel("Portfolio Manager geopend");
+        window.open("portfolio_manager.php","_blank");
+    });
+
+    // Webshop
+    document.getElementById("tool2").addEventListener("click",()=>{
+        logToPanel("Webshop geopend");
+        window.open("prijs.html","_blank");
+    });
+
+    // Analyse
+    document.getElementById("tool3").addEventListener("click",()=>{ showAnalysis(); });
+
+// Nieuws Tool → direct naar news manager
+document.getElementById("tool4").addEventListener("click", ()=>{
+    logToPanel("Nieuws manager geopend");
+    window.location.href = "news_manager.php";
+});
+
+
+    });
+
+    // Test log
+    document.getElementById("testLog").addEventListener("click",()=>{ logToPanel("Test log toegevoegd"); });
+
+    // Logout
+    document.getElementById("logout").addEventListener("click",()=>{
+        sessionStorage.removeItem("devUser");
+        sessionStorage.removeItem("fromPortfolio");
+        logToPanel("Uitgelogd","orange");
+        alert("Uitgelogd!");
+        window.location.href="index.html";
+    });
+</script>
+
+</body>
+</html>
